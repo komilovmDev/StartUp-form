@@ -1,273 +1,275 @@
-"use client";
+import { useState, useEffect } from "react"
+import "./animation.css"
 
-import { useState } from "react";
-import "./style.css";
+const CreativeAnimatedStartupForm = () => {
+  const [step, setStep] = useState(1)
+  const [formData, setFormData] = useState({
+    founderName: "",
+    startupName: "",
+    industry: "",
+    description: "",
+    fundingStage: "",
+    teamSize: "",
+    website: "",
+  })
+  const [animationState, setAnimationState] = useState("idle")
 
-function StartupForm() {
-    const [step, setStep] = useState(1);
-    const [formData, setFormData] = useState({
-        startupName: "",
-        website: "",
-        stage: "",
-        description: "",
-        foundersCount: "",
-        teamSize: "",
-        industry: "",
-        problem: "",
-        solution: "",
-        targetMarket: "",
-        revenue: "",
-        funding: "",
-    });
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }))
+  }
 
-    const totalSteps = 4;
+  const nextStep = () => {
+    setStep((prevStep) => prevStep + 1)
+  }
 
-    const updateFormData = (field, value) => {
-        setFormData((prev) => ({
-            ...prev,
-            [field]: value,
-        }));
-    };
+  const prevStep = () => {
+    setStep((prevStep) => prevStep - 1)
+  }
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        console.log(formData);
-    };
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    setAnimationState("launching")
+    console.log("Form submitted:", formData)
+  }
 
-    const isStepValid = () => {
-        switch (step) {
-            case 1:
-                return formData.startupName.trim() !== "" && formData.website.trim() !== "" && formData.stage !== "" && formData.description.trim() !== "";
-            case 2:
-                return formData.foundersCount !== "" && formData.teamSize.trim() !== "" && formData.industry !== "";
-            case 3:
-                return formData.problem.trim() !== "" && formData.solution.trim() !== "" && formData.targetMarket.trim() !== "";
-            case 4:
-                return formData.revenue !== "" && formData.funding !== "";
-            default:
-                return false;
-        }
-    };
+  useEffect(() => {
+    if (animationState === "launching") {
+      const timer = setTimeout(() => {
+        setAnimationState("success")
+      }, 4000)
+      return () => clearTimeout(timer)
+    }
+  }, [animationState])
 
-
-    const renderStep = () => {
-        switch (step) {
-            case 1:
-                return (
-                    <div className="form-group">
-                        <div className="form-field">
-                            <label htmlFor="startupName">Startup Name</label>
-                            <input
-                                type="text"
-                                id="startupName"
-                                placeholder="Enter your startup name"
-                                value={formData.startupName}
-                                onChange={(e) => updateFormData("startupName", e.target.value)}
-                            />
-                        </div>
-                        <div className="form-field">
-                            <label htmlFor="website">Website/Landing Page</label>
-                            <input
-                                type="url"
-                                id="website"
-                                placeholder="https://"
-                                value={formData.website}
-                                onChange={(e) => updateFormData("website", e.target.value)}
-                            />
-                        </div>
-                        <div className="form-field">
-                            <label htmlFor="stage">Current Stage</label>
-                            <select
-                                id="stage"
-                                value={formData.stage}
-                                onChange={(e) => updateFormData("stage", e.target.value)}
-                            >
-                                <option value="">Select stage</option>
-                                <option value="idea">Idea Stage</option>
-                                <option value="mvp">MVP</option>
-                                <option value="beta">Beta</option>
-                                <option value="launched">Launched</option>
-                                <option value="growth">Growth</option>
-                            </select>
-                        </div>
-                        <div className="form-field">
-                            <label htmlFor="description">Brief Description</label>
-                            <textarea
-                                id="description"
-                                placeholder="Describe your startup in a few sentences"
-                                value={formData.description}
-                                onChange={(e) => updateFormData("description", e.target.value)}
-                            />
-                        </div>
-                    </div>
-                );
-            case 2:
-                return (
-                    <div className="form-group">
-                        <div className="form-field">
-                            <label htmlFor="foundersCount">Number of Founders</label>
-                            <select
-                                id="foundersCount"
-                                value={formData.foundersCount}
-                                onChange={(e) =>
-                                    updateFormData("foundersCount", e.target.value)
-                                }
-                            >
-                                <option value="">Select number of founders</option>
-                                <option value="1">Solo Founder</option>
-                                <option value="2">2 Founders</option>
-                                <option value="3">3 Founders</option>
-                                <option value="4+">4+ Founders</option>
-                            </select>
-                        </div>
-                        <div className="form-field">
-                            <label htmlFor="teamSize">Total Team Size</label>
-                            <input
-                                type="number"
-                                id="teamSize"
-                                placeholder="Including founders"
-                                value={formData.teamSize}
-                                onChange={(e) => updateFormData("teamSize", e.target.value)}
-                            />
-                        </div>
-                        <div className="form-field">
-                            <label htmlFor="industry">Industry</label>
-                            <select
-                                id="industry"
-                                value={formData.industry}
-                                onChange={(e) => updateFormData("industry", e.target.value)}
-                            >
-                                <option value="">Select industry</option>
-                                <option value="software">Software/SaaS</option>
-                                <option value="ecommerce">E-commerce</option>
-                                <option value="fintech">Fintech</option>
-                                <option value="health">Healthcare</option>
-                                <option value="education">Education</option>
-                                <option value="other">Other</option>
-                            </select>
-                        </div>
-                    </div>
-                );
-            case 3:
-                return (
-                    <div className="form-group">
-                        <div className="form-field">
-                            <label htmlFor="problem">Problem Statement</label>
-                            <textarea
-                                id="problem"
-                                placeholder="What problem are you solving?"
-                                value={formData.problem}
-                                onChange={(e) => updateFormData("problem", e.target.value)}
-                            />
-                        </div>
-                        <div className="form-field">
-                            <label htmlFor="solution">Solution</label>
-                            <textarea
-                                id="solution"
-                                placeholder="How does your solution address this problem?"
-                                value={formData.solution}
-                                onChange={(e) => updateFormData("solution", e.target.value)}
-                            />
-                        </div>
-                        <div className="form-field">
-                            <label htmlFor="targetMarket">Target Market</label>
-                            <textarea
-                                id="targetMarket"
-                                placeholder="Who are your target customers?"
-                                value={formData.targetMarket}
-                                onChange={(e) => updateFormData("targetMarket", e.target.value)}
-                            />
-                        </div>
-                    </div>
-                );
-            case 4:
-                return (
-                    <div className="form-group">
-                        <div className="form-field">
-                            <label>Current Revenue Range</label>
-                            {["pre-revenue", "0-1k", "1k-10k", "10k+"].map((value) => (
-                                <div key={value} className="radio-option">
-                                    <input
-                                        type="radio"
-                                        id={value}
-                                        name="revenue"
-                                        value={value}
-                                        checked={formData.revenue === value}
-                                        onChange={(e) => updateFormData("revenue", e.target.value)}
-                                    />
-                                    <label htmlFor={value}>{value}</label>
-                                </div>
-                            ))}
-                        </div>
-                        <div className="form-field">
-                            <label>Funding Status</label>
-                            {["bootstrapped", "pre-seed", "seed", "series-a"].map((value) => (
-                                <div key={value} className="radio-option">
-                                    <input
-                                        type="radio"
-                                        id={value}
-                                        name="funding"
-                                        value={value}
-                                        checked={formData.funding === value}
-                                        onChange={(e) => updateFormData("funding", e.target.value)}
-                                    />
-                                    <label htmlFor={value}>{value}</label>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                );
-            default:
-                return null;
-        }
-    };
-
-    return (
-        <div className="form-container">
-            <h1>Startup Information Form</h1>
-            <p>Share details about your startup to join our student entrepreneurs community</p>
-
-            <div className="progress-bar">
-                {[1, 2, 3, 4].map((stepNumber) => (
-                    <div key={stepNumber} className={`progress-step ${step >= stepNumber ? "active" : ""}`}>
-                        {["Basics", "Team", "Product", "Traction"][stepNumber - 1]}
-                    </div>
-                ))}
+  const renderStep = () => {
+    switch (step) {
+      case 1:
+        return (
+          <>
+            <div className="mb-4">
+              <label htmlFor="founderName" className="block text-orange-600 font-bold mb-2">
+                Visionary's Name
+              </label>
+              <input
+                type="text"
+                id="founderName"
+                name="founderName"
+                value={formData.founderName}
+                onChange={handleChange}
+                required
+                className="w-full p-2 border-2 border-orange-300 rounded-lg focus:border-orange-500 focus:outline-none"
+                placeholder="e.g., Elon Musk"
+              />
             </div>
+            <div className="mb-4">
+              <label htmlFor="startupName" className="block text-orange-600 font-bold mb-2">
+                Your Startup's Epic Name
+              </label>
+              <input
+                type="text"
+                id="startupName"
+                name="startupName"
+                value={formData.startupName}
+                onChange={handleChange}
+                required
+                className="w-full p-2 border-2 border-orange-300 rounded-lg focus:border-orange-500 focus:outline-none"
+                placeholder="e.g., SpaceX"
+              />
+            </div>
+          </>
+        )
+      case 2:
+        return (
+          <>
+            <div className="mb-4">
+              <label htmlFor="industry" className="block text-orange-600 font-bold mb-2">
+                Industry You're Disrupting
+              </label>
+              <select
+                id="industry"
+                name="industry"
+                value={formData.industry}
+                onChange={handleChange}
+                required
+                className="w-full p-2 border-2 border-orange-300 rounded-lg focus:border-orange-500 focus:outline-none"
+              >
+                <option value="">Select your battlefield</option>
+                <option value="tech">Tech Revolution</option>
+                <option value="health">Health Innovation</option>
+                <option value="finance">FinTech Frontier</option>
+                <option value="education">EduTech Transformation</option>
+                <option value="other">Other Cosmic Ventures</option>
+              </select>
+            </div>
+            <div className="mb-4">
+              <label htmlFor="fundingStage" className="block text-orange-600 font-bold mb-2">
+                Your Funding Milestone
+              </label>
+              <select
+                id="fundingStage"
+                name="fundingStage"
+                value={formData.fundingStage}
+                onChange={handleChange}
+                required
+                className="w-full p-2 border-2 border-orange-300 rounded-lg focus:border-orange-500 focus:outline-none"
+              >
+                <option value="">Select your launch stage</option>
+                <option value="pre-seed">Idea Incubation</option>
+                <option value="seed">Seed Planting</option>
+                <option value="series-a">Liftoff (Series A)</option>
+                <option value="series-b">Orbit (Series B)</option>
+                <option value="later">Interstellar (Later Stage)</option>
+              </select>
+            </div>
+          </>
+        )
+      case 3:
+        return (
+          <>
+            <div className="mb-4">
+              <label htmlFor="teamSize" className="block text-orange-600 font-bold mb-2">
+                Size of Your Dream Team
+              </label>
+              <input
+                type="number"
+                id="teamSize"
+                name="teamSize"
+                value={formData.teamSize}
+                onChange={handleChange}
+                required
+                className="w-full p-2 border-2 border-orange-300 rounded-lg focus:border-orange-500 focus:outline-none"
+                placeholder="e.g., 5 Innovators"
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="website" className="block text-orange-600 font-bold mb-2">
+                Your Digital HQ
+              </label>
+              <input
+                type="url"
+                id="website"
+                name="website"
+                value={formData.website}
+                onChange={handleChange}
+                className="w-full p-2 border-2 border-orange-300 rounded-lg focus:border-orange-500 focus:outline-none"
+                placeholder="https://yourgalacticempire.com"
+              />
+            </div>
+          </>
+        )
+      case 4:
+        return (
+          <div className="mb-4">
+            <label htmlFor="description" className="block text-orange-600 font-bold mb-2">
+              Your World-Changing Mission
+            </label>
+            <textarea
+              id="description"
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              required
+              className="w-full p-2 border-2 border-orange-300 rounded-lg focus:border-orange-500 focus:outline-none h-32"
+              placeholder="Describe how you're going to change the world..."
+            />
+          </div>
+        )
+      default:
+        return null
+    }
+  }
 
-            <form onSubmit={handleSubmit}>
-                {renderStep()}
-
-                <div className="form-buttons">
-                    <button
-                        type="button"
-                        className="btn-secondary"
-                        disabled={step === 1}
-                        onClick={() => setStep(step - 1)}
-                    >
-                        Previous
-                    </button>
-
-                    {step === totalSteps ? (
-                        <button type="submit" className="btn-primary" disabled={!isStepValid()}>
-                            Submit
-                        </button>
-                    ) : (
-                        <button
-                            type="button"
-                            className="btn-primary"
-                            onClick={() => setStep(step + 1)}
-                            disabled={!isStepValid()}
-                        >
-                            Next
-                        </button>
-                    )}
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-100 to-orange-300 p-4">
+      <div className="w-full max-w-md bg-white rounded-xl shadow-2xl overflow-hidden">
+        {animationState === "idle" && (
+          <div className="p-8">
+            <div className="text-center mb-8">
+              <div className="text-6xl mb-4">🚀</div>
+              <h1 className="text-3xl font-bold text-orange-600 mb-2">Launch Your Startup Journey</h1>
+              <p className="text-gray-600">Share your vision and let's build the future together!</p>
+            </div>
+            <div className="flex justify-center mb-8">
+              {[1, 2, 3, 4].map((s) => (
+                <div
+                  key={s}
+                  className={`w-8 h-8 rounded-full flex items-center justify-center mx-1 ${
+                    s === step ? "bg-orange-500 text-white" : "bg-orange-200 text-orange-600"
+                  }`}
+                >
+                  {s}
                 </div>
-
-
+              ))}
+            </div>
+            <form onSubmit={handleSubmit}>
+              {renderStep()}
+              <div className="flex justify-between mt-6">
+                {step > 1 && (
+                  <button
+                    type="button"
+                    onClick={prevStep}
+                    className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors"
+                  >
+                    Previous
+                  </button>
+                )}
+                {step < 4 ? (
+                  <button
+                    type="button"
+                    onClick={nextStep}
+                    className="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors ml-auto"
+                  >
+                    Next
+                  </button>
+                ) : (
+                  <button
+                    type="submit"
+                    className="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors ml-auto"
+                  >
+                    Blast Off Your Startup 🚀
+                  </button>
+                )}
+              </div>
             </form>
-        </div>
-    );
+          </div>
+        )}
+        {animationState === "launching" && (
+          <div className="relative h-96 bg-gradient-to-b from-orange-100 to-orange-400 overflow-hidden">
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="text-9xl animate-rocket">🚀</div>
+            </div>
+            <div className="absolute inset-0 animate-twinkle">
+              {Array.from({ length: 50 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="absolute rounded-full bg-white"
+                  style={{
+                    top: `${Math.random() * 100}%`,
+                    left: `${Math.random() * 100}%`,
+                    width: `${Math.random() * 3 + 1}px`,
+                    height: `${Math.random() * 3 + 1}px`,
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+        {animationState === "success" && (
+          <div className="p-8 text-center">
+            <div className="text-6xl mb-4">🎉</div>
+            <h2 className="text-2xl font-bold text-orange-600 mb-2">Congratulations, {formData.founderName}!</h2>
+            <p className="text-xl text-gray-700 mb-4">{formData.startupName} has been launched!</p>
+            <p className="text-gray-600">Get ready to change the world!</p>
+          </div>
+        )}
+      </div>
+    </div>
+  )
 }
 
-export default StartupForm;
+export default CreativeAnimatedStartupForm
+

@@ -1,11 +1,12 @@
-import StartupForm from "./StartUp";
-
+import React from 'react';
+import './index.css';
+import CreativeAnimatedStartupForm from './StartUp';
 
 function App() {
   return (
-    <>
-      <StartupForm />
-    </>
+    <div className="App">
+      <CreativeAnimatedStartupForm />
+    </div>
   );
 }
 

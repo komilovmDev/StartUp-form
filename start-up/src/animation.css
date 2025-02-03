@@ -1,0 +1,31 @@
+@keyframes launch {
+    0% {
+      transform: translateY(100%) scale(0.5);
+    }
+    50% {
+      transform: translateY(-50%) scale(1.5);
+    }
+    100% {
+      transform: translateY(-200%) scale(0.5);
+    }
+  }
+  
+  @keyframes twinkle {
+    0%,
+    100% {
+      opacity: 0.3;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+  
+  .animate-rocket {
+    animation: launch 4s ease-in-out forwards;
+  }
+  
+  .animate-twinkle > * {
+    animation: twinkle 2s infinite;
+  }
+  
+  
