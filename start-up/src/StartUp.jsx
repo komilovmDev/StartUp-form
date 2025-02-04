@@ -73,7 +73,7 @@ const CreativeAnimatedStartupForm = () => {
                 htmlFor="startupName"
                 className="block text-orange-600 font-bold mb-2"
               >
-                Fakultet
+                Fakutet
               </label>
               <input
                 type="text"
@@ -134,7 +134,7 @@ const CreativeAnimatedStartupForm = () => {
                 htmlFor="teamSize"
                 className="block text-orange-600 font-bold mb-2"
               >
-                Jamoada ishtiroqchilar soni
+                Jamoa ishtirokchilari soni
               </label>
               <input
                 type="number"
@@ -280,10 +280,10 @@ const CreativeAnimatedStartupForm = () => {
               Tabriklayman {formData.founderName}!
             </h2>
             <p className="text-xl text-gray-700 mb-4">
-              {formData.startupName} Siz royhatdan ottingiz !!!
+              {formData.startupName} Siz royhatdan o'tdingiz !!!
             </p>
             <p className="text-gray-600">
-              Qisqa ma`lumot uchun Inavatsion Texnologiyalar Faqulteti Dekanati bilan bog`laning
+              Qisqacha ma`lumot uchun Inavatsion Texnologiyalar Faqulteti Dekanati bilan bog`laning
             </p>
           </div>
         )}
