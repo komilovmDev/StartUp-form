@@ -50,7 +50,7 @@ const CreativeAnimatedStartupForm = () => {
         setAnimationState("launching");
       
         const botToken = "8165081575:AAFJ8BrLJOWppRDmlAtbHcOsBABoKyCKP2Q";
-        const chatId = "1050704041"; 
+        const chatId = ["206489158" , "1050704041"]; 
         const message = `
           📝 *Yangi Startup Arizasi*
           👤 *F.I.SH:* ${formData.founderName}
