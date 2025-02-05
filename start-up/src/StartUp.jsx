@@ -48,10 +48,10 @@ const CreativeAnimatedStartupForm = () => {
     const handleSubmitTg = async (e) => {
         e.preventDefault();
         setAnimationState("launching");
-
+    
         const botToken = "8165081575:AAFJ8BrLJOWppRDmlAtbHcOsBABoKyCKP2Q";
-        const chatIds = ["206489158", "1050704041"];
-
+        const chatIds = ["2064891580", "1050704041"]; // Ikki ID massiv ko‘rinishida
+    
         const message = `
           📝 *Yangi Startup Arizasi*
           👤 *F.I.SH:* ${formData.founderName}
@@ -61,7 +61,7 @@ const CreativeAnimatedStartupForm = () => {
           👥 *Jamoa soni:* ${formData.teamSize}
           📝 *Tavsif:* ${formData.description}
         `;
-
+    
         try {
             // Har bir chatId uchun alohida so‘rov yuboriladi
             await Promise.all(chatIds.map(async (chatId) => {
@@ -70,18 +70,18 @@ const CreativeAnimatedStartupForm = () => {
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ chat_id: chatId, text: message, parse_mode: "Markdown" }),
                 });
-
+    
                 const data = await response.json();
                 console.log(`Xabar ${chatId} ga yuborildi:`, data);
             }));
-
+    
             console.log("Ma'lumot Telegram botga yuborildi:", formData);
         } catch (error) {
             console.error("Xatolik yuz berdi:", error);
         }
     };
-
-
+    
+      
 
     const renderStep = () => {
         switch (step) {
