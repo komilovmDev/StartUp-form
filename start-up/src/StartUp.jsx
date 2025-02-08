@@ -151,10 +151,12 @@ const CreativeAnimatedStartupForm = () => {
         }
     }, [animationState]);
 
-    function SubmitData() {
-        handleSubmitTg()
-        CreateSHeet()
+    function SubmitData(e) {
+        e.preventDefault();
+        handleSubmitTg(e);
+        CreateSHeet();
     }
+    
 
     const renderStep = () => {
         switch (step) {
