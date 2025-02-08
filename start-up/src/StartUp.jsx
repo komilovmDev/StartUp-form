@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./animation.css";
 import PhoneNumberInput from "./input/PhoneNumberInput";
+import axios from "axios";
 
 const CreativeAnimatedStartupForm = () => {
     const [step, setStep] = useState(1);
@@ -13,7 +14,7 @@ const CreativeAnimatedStartupForm = () => {
         description: "",
         fundingStage: "",
         teamSize: "",
-        phoneNumber: "", // Initialize with empty string instead of telnumber
+        phoneNumber: "", 
         website: "",
     });
     const [formErrors, setFormErrors] = useState({});
@@ -119,6 +120,28 @@ const CreativeAnimatedStartupForm = () => {
         }
     };
 
+    const CreateSHeet = async () => {
+        try {
+            const response = await axios.post("https://sheetdb.io/api/v1/83fehi6iq3slm", {
+                data: [
+                    {
+                        "F.I.SH": formData.founderName,
+                        "Fakultet": formData.startupName,
+                        "Yo‘nalish": formData.industry,
+                        "LoyihaNomi": formData.fundingStage,
+                        "JamoaSoni": formData.teamSize,
+                        "TelefonRaqami": telnumber
+                    }
+                ]
+            });
+    
+            console.log("Google Sheets-ga muvaffaqiyatli qo‘shildi:", response.data);
+        } catch (error) {
+            console.error("Xatolik yuz berdi:", error);
+        }
+    };
+    
+
     useEffect(() => {
         if (animationState === "launching") {
             const timer = setTimeout(() => {
@@ -127,6 +150,11 @@ const CreativeAnimatedStartupForm = () => {
             return () => clearTimeout(timer);
         }
     }, [animationState]);
+
+    function SubmitData() {
+        handleSubmitTg()
+        CreateSHeet()
+    }
 
     const renderStep = () => {
         switch (step) {
@@ -354,7 +382,7 @@ const CreativeAnimatedStartupForm = () => {
                                 ) : (
                                     <button
                                         type="submit"
-                                        onClick={handleSubmitTg}
+                                        onClick={SubmitData}
                                         className="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors ml-auto"
                                     >
                                         Startapingizni U'chirish 🚀
