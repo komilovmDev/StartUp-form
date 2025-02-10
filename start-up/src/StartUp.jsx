@@ -130,7 +130,8 @@ const CreativeAnimatedStartupForm = () => {
                         "Yo‘nalish": formData.industry,
                         "LoyihaNomi": formData.fundingStage,
                         "JamoaSoni": formData.teamSize,
-                        "TelefonRaqami": telnumber
+                        "TelefonRaqami": telnumber,
+                        "Loyha haqida": formData.description
                     }
                 ]
             });
